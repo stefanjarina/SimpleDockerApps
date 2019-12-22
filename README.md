@@ -6,7 +6,7 @@ A PowerShell module for simply creating a various servers or apps in a docker co
 
 ## TODO
 
-- [ ] Add prefix to all functions
+- [x] Add prefix to all functions
 - [ ] Add help strings to all functions
 - [ ] Extract some common functionality (e.g. confirmation messages, status checks, ...)
 - [ ] Properly fill manifest file
@@ -22,7 +22,7 @@ A PowerShell module for simply creating a various servers or apps in a docker co
 
 ```powershell
 ##### CUSTOM MODULES
-if ($env:PSModulePath -notmatch 'dotfiles\\powershell\\modules') {
+if ($env:PSModulePath -notmatch 'powershell\\modules') {
   $env:PSModulePath = $env:PSModulePath + ';E:\powershell\modules'
 }
 Import-Module SimpleDockerApps -Force
@@ -41,7 +41,10 @@ Import-Module SimpleDockerApps -Force
 ### `New-Sda<ServiseName>` [-Password \<password\>] [-Version \<version\>]
 
 - Downloads an image if not already in cache
-- Creates new docker container bound to default network `servers` and exposing default ports on localhost
+- Creates new docker container
+  - bound to default network `servers`
+  - exposing applications default ports on localhost
+  - name ends in `-server`
 - Starts docker container
 
 ### `Connect-Sda<ServiseName>` [-Password \<password\>]

@@ -12,13 +12,13 @@ function Get-SdaAllRunning {
 #############################
 #############################
 ## MSSQL DOCKER
-function New-MSSQL {
+function New-SdaMSSQL {
   param (
     [string]$Pass = "Start123++"
   )
   if ($Pass -eq "Start123++") {
     Write-Output "Creating MSSQL Express in Docker container using the default password 'Start123++'"
-    Write-Output "For custom password run again with: 'New-MSSQL -Pass <SA_PASSWORD>'"
+    Write-Output "For custom password run again with: 'New-SdaMSSQL -Pass <SA_PASSWORD>'"
     Write-Output "Password must be strong, otherwise docker fails to create container"
     $confirmation = Read-Host "Are you sure you want to proceed? (Y/n)"
     switch -Regex ($confirmation) {
@@ -31,7 +31,7 @@ function New-MSSQL {
     $removeExisting = Read-Host "Container is already running. Do you want me to destroy it? (Y/n)"
     switch -Regex ($removeExisting) {
       '[Nn]' { break }
-      Default { docker kill mssql-server ; if ($?) { Remove-MSSQL } }
+      Default { docker kill mssql-server ; if ($?) { Remove-SdaMSSQL } }
     }
   }
   
@@ -53,13 +53,13 @@ function New-MSSQL {
   }
 }
     
-function Connect-MSSQL {
+function Connect-SdaMSSQL {
   param (
     [string]$Pass = "Start123++"
   )
   if ($Pass -eq "Start123++") {
     Write-Output "Connecting to MSSQL Express in Docker container using the default password 'Start123++'"
-    Write-Output "For custom password run again with: 'Connect-MSSQL -Pass <SA_PASSWORD>'"
+    Write-Output "For custom password run again with: 'Connect-SdaMSSQL -Pass <SA_PASSWORD>'"
     $confirmation = Read-Host "Are you sure you want to proceed? (Y/n)"
     switch -Regex ($confirmation) {
       '[Nn]' { break }
@@ -71,15 +71,15 @@ function Connect-MSSQL {
   }
 }
   
-function Stop-MSSQL {
+function Stop-SdaMSSQL {
   docker stop mssql-server -t 10
 }
   
-function Start-MSSQL {
+function Start-SdaMSSQL {
   docker start mssql-server
 }
   
-function Remove-MSSQL {
+function Remove-SdaMSSQL {
   param(
     [switch]$Volumes
   )
@@ -89,12 +89,12 @@ function Remove-MSSQL {
   }
 }
   
-function Get-MSSQL {
+function Get-SdaMSSQL {
   docker container ls -a -f 'name=mssql-server' --format '{{.Status}}'
 }
   
 ## POSTGRESQL DOCKER
-function New-Postgres {
+function New-SdaPostgres {
   param (
     [string]$Pass = "postgres",
     [string]$Version = "11"
@@ -112,7 +112,7 @@ function New-Postgres {
     $removeExisting = Read-Host "Container is already running. Do you want me to destroy it? (Y/n)"
     switch -Regex ($removeExisting) {
       '[Nn]' { break }
-      Default { docker kill postgresql-server ; if ($?) { Remove-Postgres } }
+      Default { docker kill postgresql-server ; if ($?) { Remove-SdaPostgres } }
     }
   }
   
@@ -134,7 +134,7 @@ function New-Postgres {
   }
 }
   
-function Connect-Postgres {
+function Connect-SdaPostgres {
   param (
     [string]$Pass = "postgres"
   )
@@ -148,15 +148,15 @@ function Connect-Postgres {
   }
 }
   
-function Stop-Postgres {
+function Stop-SdaPostgres {
   docker stop postgresql-server -t 10
 }
   
-function Start-Postgres {
+function Start-SdaPostgres {
   docker start postgresql-server
 }
   
-function Remove-Postgres {
+function Remove-SdaPostgres {
   param(
     [switch]$Volumes
   )
@@ -166,12 +166,12 @@ function Remove-Postgres {
   }
 }
   
-function Get-Postgres {
+function Get-SdaPostgres {
   docker container ls -a -f 'name=postgresql-server' --format '{{.Status}}'
 }
   
 ## Mariadb DOCKER
-function New-Mariadb {
+function New-SdaMariadb {
   param (
     [string]$Pass = "Start123",
     [string]$Version = "10"
@@ -189,7 +189,7 @@ function New-Mariadb {
     $removeExisting = Read-Host "Container is already running. Do you want me to destroy it? (Y/n)"
     switch -Regex ($removeExisting) {
       '[Nn]' { break }
-      Default { docker kill mariadb-server ; if ($?) { Remove-Mariadb } }
+      Default { docker kill mariadb-server ; if ($?) { Remove-SdaMariadb } }
     }
   }
   
@@ -211,7 +211,7 @@ function New-Mariadb {
   }
 }
   
-function Connect-Mariadb {
+function Connect-SdaMariadb {
   param (
     [string]$Pass = "Start123"
   )
@@ -225,15 +225,15 @@ function Connect-Mariadb {
   }
 }
   
-function Stop-Mariadb {
+function Stop-SdaMariadb {
   docker stop mariadb-server -t 10
 }
   
-function Start-Mariadb {
+function Start-SdaMariadb {
   docker start mariadb-server
 }
   
-function Remove-Mariadb {
+function Remove-SdaMariadb {
   param(
     [switch]$Volumes
   )
@@ -243,12 +243,12 @@ function Remove-Mariadb {
   }
 }
   
-function Get-Mariadb {
+function Get-SdaMariadb {
   docker container ls -a -f 'name=mariadb-server' --format '{{.Status}}'
 }
   
 ## OracleDb DOCKER
-function New-OracleDb {
+function New-SdaOracleDb {
   param (
     [string]$Pass = "Start123",
     [string]$Version = "18.4.0",
@@ -267,7 +267,7 @@ function New-OracleDb {
     $removeExisting = Read-Host "Container is already running. Do you want me to destroy it? (Y/n)"
     switch -Regex ($removeExisting) {
       '[Nn]' { break }
-      Default { docker kill oracledb-server ; if ($?) { Remove-OracleDb } }
+      Default { docker kill oracledb-server ; if ($?) { Remove-SdaOracleDb } }
     }
   }
   
@@ -289,7 +289,7 @@ function New-OracleDb {
   }
 }
   
-function Connect-OracleDb {
+function Connect-SdaOracleDb {
   param (
     [string]$Pass = "Start123"
   )
@@ -303,15 +303,15 @@ function Connect-OracleDb {
   }
 }
   
-function Stop-OracleDb {
+function Stop-SdaOracleDb {
   docker stop oracledb-server -t 10
 }
   
-function Start-OracleDb {
+function Start-SdaOracleDb {
   docker start oracledb-server
 }
   
-function Remove-OracleDb {
+function Remove-SdaOracleDb {
   param(
     [switch]$Volumes
   )
@@ -321,12 +321,12 @@ function Remove-OracleDb {
   }
 }
   
-function Get-OracleDb {
+function Get-SdaOracleDb {
   docker container ls -a -f 'name=oracledb-server' --format '{{.Status}}'
 }
   
 ## MongoDB DOCKER
-function New-Mongodb {
+function New-SdaMongodb {
   param (
     [string]$Version = "latest",
     [string]$Pass = ""
@@ -347,7 +347,7 @@ function New-Mongodb {
     $removeExisting = Read-Host "Container is already running. Do you want me to destroy it? (Y/n)"
     switch -Regex ($removeExisting) {
       '[Nn]' { break }
-      Default { docker kill mongodb-server ; if ($?) { Remove-Mongodb } }
+      Default { docker kill mongodb-server ; if ($?) { Remove-SdaMongodb } }
     }
   }
   if ("" -ne $Pass) {
@@ -373,7 +373,7 @@ function New-Mongodb {
   }
 }
   
-function Connect-Mongodb {
+function Connect-SdaMongodb {
   param (
     [string]$Pass = ""
   )
@@ -396,15 +396,15 @@ function Connect-Mongodb {
   }
 }
   
-function Stop-Mongodb {
+function Stop-SdaMongodb {
   docker stop mongodb-server -t 10
 }
   
-function Start-Mongodb {
+function Start-SdaMongodb {
   docker start mongodb-server
 }
   
-function Remove-Mongodb {
+function Remove-SdaMongodb {
   param(
     [switch]$Volumes
   )
@@ -414,12 +414,12 @@ function Remove-Mongodb {
   }
 }
   
-function Get-Mongodb {
+function Get-SdaMongodb {
   docker container ls -a -f 'name=mongodb-server' --format '{{.Status}}'
 }
   
 ## Redis DOCKER
-function New-Redis {
+function New-SdaRedis {
   param (
     [string]$Version = "latest",
     [switch]$Persistent
@@ -451,10 +451,10 @@ function New-Redis {
       Default {
         docker kill $name
         if ($PSBoundParameters.ContainsKey("Persistent")) {
-          if ($?) { Remove-Redis -Persistent }
+          if ($?) { Remove-SdaRedis -Persistent }
         }
         else {
-          if ($?) { Remove-Redis }
+          if ($?) { Remove-SdaRedis }
         }
       }
     }
@@ -473,7 +473,7 @@ function New-Redis {
     Write-Error "Error creating container. Exiting..."
     break
   }
-  Start-Redis -Persistent
+  Start-SdaRedis -Persistent
   if ($?) { 
     Write-Output "container started"
   }
@@ -483,7 +483,7 @@ function New-Redis {
   }
 }
   
-function Connect-Redis {
+function Connect-SdaRedis {
   param (
     [switch]$Persistent
   )
@@ -507,7 +507,7 @@ function Connect-Redis {
   }
 }
   
-function Stop-Redis {
+function Stop-SdaRedis {
   param (
     [switch]$Persistent
   )
@@ -519,7 +519,7 @@ function Stop-Redis {
   }
 }
   
-function Start-Redis {
+function Start-SdaRedis {
   param (
     [switch]$Persistent
   )
@@ -531,7 +531,7 @@ function Start-Redis {
   }
 }
   
-function Remove-Redis {
+function Remove-SdaRedis {
   param (
     [switch]$Persistent,
     [switch]$Volumes
@@ -547,7 +547,7 @@ function Remove-Redis {
   }
 }
   
-function Get-Redis {
+function Get-SdaRedis {
   param (
     [switch]$Persistent
   )
@@ -560,7 +560,7 @@ function Get-Redis {
 }
   
 ## Cassandra DOCKER
-function New-Cassandra {
+function New-SdaCassandra {
   param (
     [string]$Version = "latest"
   )
@@ -576,7 +576,7 @@ function New-Cassandra {
     $removeExisting = Read-Host "Container is already running. Do you want me to destroy it? (Y/n)"
     switch -Regex ($removeExisting) {
       '[Nn]' { break }
-      Default { docker kill cassandra-server ; if ($?) { Remove-Cassandra } }
+      Default { docker kill cassandra-server ; if ($?) { Remove-SdaCassandra } }
     }
   }
   
@@ -598,7 +598,7 @@ function New-Cassandra {
   }
 }
   
-function Connect-Cassandra {
+function Connect-SdaCassandra {
   Write-Output "Connecting to Cassandra in Docker container"
   $confirmation = Read-Host "Are you sure you want to proceed? (Y/n)"
   switch -Regex ($confirmation) {
@@ -607,15 +607,15 @@ function Connect-Cassandra {
   }
 }
   
-function Stop-Cassandra {
+function Stop-SdaCassandra {
   docker stop cassandra-server -t 10
 }
   
-function Start-Cassandra {
+function Start-SdaCassandra {
   docker start cassandra-server
 }
   
-function Remove-Cassandra {
+function Remove-SdaCassandra {
   param(
     [switch]$Volumes
   )
@@ -625,12 +625,12 @@ function Remove-Cassandra {
   }
 }
   
-function Get-Cassandra {
+function Get-SdaCassandra {
   docker container ls -a -f 'name=cassandra-server' --format '{{.Status}}'
 }
   
 ## Ravendb DOCKER
-function New-Ravendb {
+function New-SdaRavendb {
   param (
     [string]$Version = "latest"
   )
@@ -646,7 +646,7 @@ function New-Ravendb {
     $removeExisting = Read-Host "Container is already running. Do you want me to destroy it? (Y/n)"
     switch -Regex ($removeExisting) {
       '[Nn]' { break }
-      Default { docker kill ravendb-server ; if ($?) { Remove-Ravendb } }
+      Default { docker kill ravendb-server ; if ($?) { Remove-SdaRavendb } }
     }
   }
   
@@ -668,7 +668,7 @@ function New-Ravendb {
   }
 }
   
-function Connect-Ravendb {
+function Connect-SdaRavendb {
   Write-Output "Connecting to Ravendb in Docker container"
   $confirmation = Read-Host "Are you sure you want to proceed? (Y/n)"
   switch -Regex ($confirmation) {
@@ -677,7 +677,7 @@ function Connect-Ravendb {
   }
 }
   
-function Connect-RavendbWeb {
+function Connect-SdaRavendbWeb {
   $url = "http://localhost:9090"
   Write-Output "Connecting to Ravendb web interface at: '$url'"
   Write-Output "If web browser did not open automatically please open browser and paste in address manually"
@@ -692,21 +692,21 @@ function Connect-RavendbWeb {
         open $url
       }
       else {
-        Start-Process $url
+        Start-SdaProcess $url
       }
     }
   }
 }
   
-function Stop-Ravendb {
+function Stop-SdaRavendb {
   docker stop ravendb-server -t 10
 }
   
-function Start-Ravendb {
+function Start-SdaRavendb {
   docker start ravendb-server
 }
   
-function Remove-Ravendb {
+function Remove-SdaRavendb {
   param(
     [switch]$Volumes
   )
@@ -716,12 +716,12 @@ function Remove-Ravendb {
   }
 }
   
-function Get-Ravendb {
+function Get-SdaRavendb {
   docker container ls -a -f 'name=ravendb-server' --format '{{.Status}}'
 }
   
 ## Clickhouse DOCKER
-function New-Clickhouse {
+function New-SdaClickhouse {
   param (
     [string]$Version = "latest"
   )
@@ -737,7 +737,7 @@ function New-Clickhouse {
     $removeExisting = Read-Host "Container is already running. Do you want me to destroy it? (Y/n)"
     switch -Regex ($removeExisting) {
       '[Nn]' { break }
-      Default { docker kill clickhouse-server ; if ($?) { Remove-Clickhouse } }
+      Default { docker kill clickhouse-server ; if ($?) { Remove-SdaClickhouse } }
     }
   }
   
@@ -759,7 +759,7 @@ function New-Clickhouse {
   }
 }
   
-function Connect-Clickhouse {
+function Connect-SdaClickhouse {
   Write-Output "Connecting to Clickhouse in Docker container"
   $confirmation = Read-Host "Are you sure you want to proceed? (Y/n)"
   switch -Regex ($confirmation) {
@@ -768,15 +768,15 @@ function Connect-Clickhouse {
   }
 }
   
-function Stop-Clickhouse {
+function Stop-SdaClickhouse {
   docker stop clickhouse-server -t 10
 }
   
-function Start-Clickhouse {
+function Start-SdaClickhouse {
   docker start clickhouse-server
 }
   
-function Remove-Clickhouse {
+function Remove-SdaClickhouse {
   param(
     [switch]$Volumes
   )
@@ -786,12 +786,12 @@ function Remove-Clickhouse {
   }
 }
   
-function Get-Clickhouse {
+function Get-SdaClickhouse {
   docker container ls -a -f 'name=clickhouse-server' --format '{{.Status}}'
 }
   
 ## Dremio DOCKER
-function New-Dremio {
+function New-SdaDremio {
   param (
     [string]$Version = "latest"
   )
@@ -807,7 +807,7 @@ function New-Dremio {
     $removeExisting = Read-Host "Container is already running. Do you want me to destroy it? (Y/n)"
     switch -Regex ($removeExisting) {
       '[Nn]' { break }
-      Default { docker kill dremio-server ; if ($?) { Remove-Dremio } }
+      Default { docker kill dremio-server ; if ($?) { Remove-SdaDremio } }
     }
   }
   
@@ -829,7 +829,7 @@ function New-Dremio {
   }
 }
   
-function Connect-DremioWeb {
+function Connect-SdaDremioWeb {
   $url = "http://localhost:9047"
   Write-Output "Connecting to Dremio web interface at: '$url'"
   Write-Output "If web browser did not open automatically please open browser and paste in address manually"
@@ -844,21 +844,21 @@ function Connect-DremioWeb {
         open $url
       }
       else {
-        Start-Process $url
+        Start-SdaProcess $url
       }
     }
   }
 }
   
-function Stop-Dremio {
+function Stop-SdaDremio {
   docker stop dremio-server -t 10
 }
   
-function Start-Dremio {
+function Start-SdaDremio {
   docker start dremio-server
 }
   
-function Remove-Dremio {
+function Remove-SdaDremio {
   param(
     [switch]$Volumes
   )
@@ -868,12 +868,12 @@ function Remove-Dremio {
   }
 }
   
-function Get-Dremio {
+function Get-SdaDremio {
   docker container ls -a -f 'name=dremio-server' --format '{{.Status}}'
 }
   
 ## DynamoDB DOCKER
-function New-Dynamodb {
+function New-SdaDynamodb {
   param (
     [string]$Version = "latest"
   )
@@ -889,7 +889,7 @@ function New-Dynamodb {
     $removeExisting = Read-Host "Container is already running. Do you want me to destroy it? (Y/n)"
     switch -Regex ($removeExisting) {
       '[Nn]' { break }
-      Default { docker kill cassandra-server ; if ($?) { Remove-Dynamodb } }
+      Default { docker kill cassandra-server ; if ($?) { Remove-SdaDynamodb } }
     }
   }
   
@@ -911,7 +911,7 @@ function New-Dynamodb {
   }
 }
   
-function Connect-Dynamodb {
+function Connect-SdaDynamodb {
   Write-Output "Connecting to Dynamodb in Docker container"
   $confirmation = Read-Host "Are you sure you want to proceed? (Y/n)"
   switch -Regex ($confirmation) {
@@ -920,24 +920,24 @@ function Connect-Dynamodb {
   }
 }
   
-function Stop-Dynamodb {
+function Stop-SdaDynamodb {
   docker stop dynamodb-server -t 10
 }
   
-function Start-Dynamodb {
+function Start-SdaDynamodb {
   docker start dynamodb-server
 }
   
-function Remove-Dynamodb {
+function Remove-SdaDynamodb {
   docker container rm dynamodb-server
 }
   
-function Get-Dynamodb {
+function Get-SdaDynamodb {
   docker container ls -a -f 'name=dynamodb-server' --format '{{.Status}}'
 }
   
 ## Elasticsearch DOCKER
-function New-Elasticsearch {
+function New-SdaElasticsearch {
   param (
     [string]$Version = "6.6.1"
   )
@@ -953,7 +953,7 @@ function New-Elasticsearch {
     $removeExisting = Read-Host "Container is already running. Do you want me to destroy it? (Y/n)"
     switch -Regex ($removeExisting) {
       '[Nn]' { break }
-      Default { docker kill elasticsearch-server ; if ($?) { Remove-Elasticsearch } }
+      Default { docker kill elasticsearch-server ; if ($?) { Remove-SdaElasticsearch } }
     }
   }
   
@@ -975,7 +975,7 @@ function New-Elasticsearch {
   }
 }
   
-function Connect-Elasticsearch {
+function Connect-SdaElasticsearch {
   Write-Output "Connecting to Elasticsearch in Docker container"
   $confirmation = Read-Host "Are you sure you want to proceed? (Y/n)"
   switch -Regex ($confirmation) {
@@ -984,15 +984,15 @@ function Connect-Elasticsearch {
   }
 }
   
-function Stop-Elasticsearch {
+function Stop-SdaElasticsearch {
   docker stop elasticsearch-server -t 10
 }
   
-function Start-Elasticsearch {
+function Start-SdaElasticsearch {
   docker start elasticsearch-server
 }
   
-function Remove-Elasticsearch {
+function Remove-SdaElasticsearch {
   param(
     [switch]$Volumes
   )
@@ -1002,12 +1002,12 @@ function Remove-Elasticsearch {
   }
 }
   
-function Get-Elasticsearch {
+function Get-SdaElasticsearch {
   docker container ls -a -f 'name=elasticsearch-server' --format '{{.Status}}'
 }
   
 ## Solr DOCKER
-function New-Solr {
+function New-SdaSolr {
   param (
     [string]$Version = "latest",
     [switch]$NoExamples
@@ -1024,7 +1024,7 @@ function New-Solr {
     $removeExisting = Read-Host "Container is already running. Do you want me to destroy it? (Y/n)"
     switch -Regex ($removeExisting) {
       '[Nn]' { break }
-      Default { docker kill solr-server ; if ($?) { Remove-Solr } }
+      Default { docker kill solr-server ; if ($?) { Remove-SdaSolr } }
     }
   }
   
@@ -1072,7 +1072,7 @@ function New-Solr {
   }
 }
   
-function Connect-SolrWeb {
+function Connect-SdaSolrWeb {
   $url = "http://localhost:8983/solr/"
   Write-Output "Connecting to Solr web interface at: '$url'"
   Write-Output "If web browser did not open automatically please open browser and paste in address manually"
@@ -1087,21 +1087,21 @@ function Connect-SolrWeb {
         open $url
       }
       else {
-        Start-Process $url
+        Start-SdaProcess $url
       }
     }
   }
 }
   
-function Stop-Solr {
+function Stop-SdaSolr {
   docker stop solr-server -t 10
 }
   
-function Start-Solr {
+function Start-SdaSolr {
   docker start solr-server
 }
   
-function Remove-Solr {
+function Remove-SdaSolr {
   param(
     [switch]$Volumes
   )
@@ -1111,12 +1111,12 @@ function Remove-Solr {
   }
 }
   
-function Get-Solr {
+function Get-SdaSolr {
   docker container ls -a -f 'name=solr-server' --format '{{.Status}}'
 }
   
 ## Neo4j DOCKER
-function New-Neo4j {
+function New-SdaNeo4j {
   param (
     [string]$Version = "latest"
   )
@@ -1132,7 +1132,7 @@ function New-Neo4j {
     $removeExisting = Read-Host "Container is already running. Do you want me to destroy it? (Y/n)"
     switch -Regex ($removeExisting) {
       '[Nn]' { break }
-      Default { docker kill neo4j-server ; if ($?) { Remove-Neo4j } }
+      Default { docker kill neo4j-server ; if ($?) { Remove-SdaNeo4j } }
     }
   }
   
@@ -1154,7 +1154,7 @@ function New-Neo4j {
   }
 }
   
-function Connect-Neo4j {
+function Connect-SdaNeo4j {
   Write-Output "Connecting to Neo4j in Docker container"
   $confirmation = Read-Host "Are you sure you want to proceed? (Y/n)"
   switch -Regex ($confirmation) {
@@ -1163,15 +1163,15 @@ function Connect-Neo4j {
   }
 }
   
-function Stop-Neo4j {
+function Stop-SdaNeo4j {
   docker stop neo4j-server -t 10
 }
   
-function Start-Neo4j {
+function Start-SdaNeo4j {
   docker start neo4j-server
 }
   
-function Remove-Neo4j {
+function Remove-SdaNeo4j {
   param(
     [switch]$Volumes
   )
@@ -1181,14 +1181,14 @@ function Remove-Neo4j {
   }
 }
   
-function Get-Neo4j {
+function Get-SdaNeo4j {
   docker container ls -a -f 'name=neo4j-server' --format '{{.Status}}'
 }
   
 ######################
 ## OrientDB DOCKER
 ######################
-function New-OrientDB {
+function New-SdaOrientDB {
   param (
     [string]$Pass = "Start123",
     [string]$Version = "latest"
@@ -1205,7 +1205,7 @@ function New-OrientDB {
     $removeExisting = Read-Host "Container is already running. Do you want me to destroy it? (Y/n)"
     switch -Regex ($removeExisting) {
       '[Nn]' { break }
-      Default { docker kill orientdb-server ; if ($?) { Remove-OrientDB } }
+      Default { docker kill orientdb-server ; if ($?) { Remove-SdaOrientDB } }
     }
   }
   
@@ -1227,7 +1227,7 @@ function New-OrientDB {
   }
 }
   
-function Connect-OrientDB {
+function Connect-SdaOrientDB {
   Write-Output "Connecting to OrientDB in Docker container"
   $confirmation = Read-Host "Are you sure you want to proceed? (Y/n)"
   switch -Regex ($confirmation) {
@@ -1236,15 +1236,15 @@ function Connect-OrientDB {
   }
 }
   
-function Stop-OrientDB {
+function Stop-SdaOrientDB {
   docker stop orientdb-server -t 10
 }
   
-function Start-OrientDB {
+function Start-SdaOrientDB {
   docker start orientdb-server
 }
   
-function Remove-OrientDB {
+function Remove-SdaOrientDB {
   param(
     [switch]$Volumes
   )
@@ -1254,14 +1254,14 @@ function Remove-OrientDB {
   }
 }
   
-function Get-OrientDB {
+function Get-SdaOrientDB {
   docker container ls -a -f 'name=orientdb-server' --format '{{.Status}}'
 }
   
 ######################
 ## ArangoDB DOCKER
 ######################
-function New-ArangoDB {
+function New-SdaArangoDB {
   param (
     [string]$Pass = "Start123",
     [string]$Version = "latest"
@@ -1278,7 +1278,7 @@ function New-ArangoDB {
     $removeExisting = Read-Host "Container is already running. Do you want me to destroy it? (Y/n)"
     switch -Regex ($removeExisting) {
       '[Nn]' { break }
-      Default { docker kill arangodb-server ; if ($?) { Remove-ArangoDB } }
+      Default { docker kill arangodb-server ; if ($?) { Remove-SdaArangoDB } }
     }
   }
   
@@ -1300,7 +1300,7 @@ function New-ArangoDB {
   }
 }
   
-function Connect-ArangoDB {
+function Connect-SdaArangoDB {
   param (
     [string]$Pass = "Start123"
   )
@@ -1312,15 +1312,15 @@ function Connect-ArangoDB {
   }
 }
   
-function Stop-ArangoDB {
+function Stop-SdaArangoDB {
   docker stop arangodb-server -t 10
 }
   
-function Start-ArangoDB {
+function Start-SdaArangoDB {
   docker start arangodb-server
 }
   
-function Remove-ArangoDB {
+function Remove-SdaArangoDB {
   param(
     [switch]$Volumes
   )
@@ -1330,14 +1330,14 @@ function Remove-ArangoDB {
   }
 }
   
-function Get-ArangoDB {
+function Get-SdaArangoDB {
   docker container ls -a -f 'name=arangodb-server' --format '{{.Status}}'
 }
   
 ######################
 ## RethinkDB DOCKER
 ######################
-function New-RethinkDB {
+function New-SdaRethinkDB {
   param (
     [string]$Version = "latest"
   )
@@ -1353,7 +1353,7 @@ function New-RethinkDB {
     $removeExisting = Read-Host "Container is already running. Do you want me to destroy it? (Y/n)"
     switch -Regex ($removeExisting) {
       '[Nn]' { break }
-      Default { docker kill rethinkdb-server ; if ($?) { Remove-RethinkDB } }
+      Default { docker kill rethinkdb-server ; if ($?) { Remove-SdaRethinkDB } }
     }
   }
   
@@ -1375,7 +1375,7 @@ function New-RethinkDB {
   }
 }
   
-function Connect-RethinkDBWeb {
+function Connect-SdaRethinkDBWeb {
   $url = "http://localhost:8080"
   Write-Output "Connecting to RethinkDB web interface at: '$url'"
   Write-Output "If web browser did not open automatically please open browser and paste in address manually"
@@ -1390,21 +1390,21 @@ function Connect-RethinkDBWeb {
         open $url
       }
       else {
-        Start-Process $url
+        Start-SdaProcess $url
       }
     }
   }
 }
   
-function Stop-RethinkDB {
+function Stop-SdaRethinkDB {
   docker stop rethinkdb-server -t 10
 }
   
-function Start-RethinkDB {
+function Start-SdaRethinkDB {
   docker start rethinkdb-server
 }
   
-function Remove-RethinkDB {
+function Remove-SdaRethinkDB {
   param(
     [switch]$Volumes
   )
@@ -1414,14 +1414,14 @@ function Remove-RethinkDB {
   }
 }
   
-function Get-RethinkDB {
+function Get-SdaRethinkDB {
   docker container ls -a -f 'name=rethinkdb-server' --format '{{.Status}}'
 }
   
 ######################
 ## Presto DOCKER
 ######################
-function New-Presto {
+function New-SdaPresto {
   param (
     [string]$Version = "latest"
   )
@@ -1437,7 +1437,7 @@ function New-Presto {
     $removeExisting = Read-Host "Container is already running. Do you want me to destroy it? (Y/n)"
     switch -Regex ($removeExisting) {
       '[Nn]' { break }
-      Default { docker kill presto-server ; if ($?) { Remove-Presto } }
+      Default { docker kill presto-server ; if ($?) { Remove-SdaPresto } }
     }
   }
   
@@ -1459,7 +1459,7 @@ function New-Presto {
   }
 }
   
-function Connect-Presto {
+function Connect-SdaPresto {
   Write-Output "Connecting to Presto in Docker container"
   $confirmation = Read-Host "Are you sure you want to proceed? (Y/n)"
   switch -Regex ($confirmation) {
@@ -1468,7 +1468,7 @@ function Connect-Presto {
   }
 }
   
-function Connect-PrestoWeb {
+function Connect-SdaPrestoWeb {
   $url = "http://localhost:8080"
   Write-Output "Connecting to Presto web interface at: '$url'"
   Write-Output "If web browser did not open automatically please open browser and paste in address manually"
@@ -1483,32 +1483,32 @@ function Connect-PrestoWeb {
         open $url
       }
       else {
-        Start-Process $url
+        Start-SdaProcess $url
       }
     }
   }
 }
   
-function Stop-Presto {
+function Stop-SdaPresto {
   docker stop presto-server -t 10
 }
   
-function Start-Presto {
+function Start-SdaPresto {
   docker start presto-server
 }
   
-function Remove-Presto {
+function Remove-SdaPresto {
   docker container rm presto-server
 }
   
-function Get-Presto {
+function Get-SdaPresto {
   docker container ls -a -f 'name=presto-server' --format '{{.Status}}'
 }
   
 ######################
 ## ScyllaDB DOCKER
 ######################
-function New-ScyllaDB {
+function New-SdaScyllaDB {
   param (
     [string]$Version = "latest"
   )
@@ -1524,7 +1524,7 @@ function New-ScyllaDB {
     $removeExisting = Read-Host "Container is already running. Do you want me to destroy it? (Y/n)"
     switch -Regex ($removeExisting) {
       '[Nn]' { break }
-      Default { docker kill scylladb-server ; if ($?) { Remove-ScyllaDB } }
+      Default { docker kill scylladb-server ; if ($?) { Remove-SdaScyllaDB } }
     }
   }
   
@@ -1546,7 +1546,7 @@ function New-ScyllaDB {
   }
 }
   
-function Connect-ScyllaDB {
+function Connect-SdaScyllaDB {
   Write-Output "Connecting to ScyllaDB in Docker container"
   $confirmation = Read-Host "Are you sure you want to proceed? (Y/n)"
   switch -Regex ($confirmation) {
@@ -1555,15 +1555,15 @@ function Connect-ScyllaDB {
   }
 }
   
-function Stop-ScyllaDB {
+function Stop-SdaScyllaDB {
   docker stop scylladb-server -t 10
 }
   
-function Start-ScyllaDB {
+function Start-SdaScyllaDB {
   docker start scylladb-server
 }
   
-function Remove-ScyllaDB {
+function Remove-SdaScyllaDB {
   param(
     [switch]$Volumes
   )
@@ -1573,14 +1573,14 @@ function Remove-ScyllaDB {
   }
 }
   
-function Get-ScyllaDB {
+function Get-SdaScyllaDB {
   docker container ls -a -f 'name=scylladb-server' --format '{{.Status}}'
 }
   
 ######################
 ## Firebird DOCKER
 ######################
-function New-Firebird {
+function New-SdaFirebird {
   param (
     [string]$Pass = "Start123",
     [string]$Version = "latest"
@@ -1597,7 +1597,7 @@ function New-Firebird {
     $removeExisting = Read-Host "Container is already running. Do you want me to destroy it? (Y/n)"
     switch -Regex ($removeExisting) {
       '[Nn]' { break }
-      Default { docker kill firebird-server ; if ($?) { Remove-Firebird } }
+      Default { docker kill firebird-server ; if ($?) { Remove-SdaFirebird } }
     }
   }
   
@@ -1619,7 +1619,7 @@ function New-Firebird {
   }
 }
   
-function Connect-Firebird {
+function Connect-SdaFirebird {
   param(
     [string]$Pass = "Start123"
   )
@@ -1631,15 +1631,15 @@ function Connect-Firebird {
   }
 }
   
-function Stop-Firebird {
+function Stop-SdaFirebird {
   docker stop firebird-server -t 10
 }
   
-function Start-Firebird {
+function Start-SdaFirebird {
   docker start firebird-server
 }
   
-function Remove-Firebird {
+function Remove-SdaFirebird {
   param(
     [switch]$Volumes
   )
@@ -1649,14 +1649,14 @@ function Remove-Firebird {
   }
 }
   
-function Get-Firebird {
+function Get-SdaFirebird {
   docker container ls -a -f 'name=firebird-server' --format '{{.Status}}'
 }
   
 ######################
 ## Vertica DOCKER
 ######################
-function New-Vertica {
+function New-SdaVertica {
   param (
     [string]$Version = "latest"
   )
@@ -1672,7 +1672,7 @@ function New-Vertica {
     $removeExisting = Read-Host "Container is already running. Do you want me to destroy it? (Y/n)"
     switch -Regex ($removeExisting) {
       '[Nn]' { break }
-      Default { docker kill vertica-server ; if ($?) { Remove-Vertica } }
+      Default { docker kill vertica-server ; if ($?) { Remove-SdaVertica } }
     }
   }
   
@@ -1694,7 +1694,7 @@ function New-Vertica {
   }
 }
   
-function Connect-Vertica {
+function Connect-SdaVertica {
   Write-Output "Connecting to Vertica in Docker container"
   $confirmation = Read-Host "Are you sure you want to proceed? (Y/n)"
   switch -Regex ($confirmation) {
@@ -1703,15 +1703,15 @@ function Connect-Vertica {
   }
 }
   
-function Stop-Vertica {
+function Stop-SdaVertica {
   docker stop vertica-server -t 10
 }
   
-function Start-Vertica {
+function Start-SdaVertica {
   docker start vertica-server
 }
   
-function Remove-Vertica {
+function Remove-SdaVertica {
   param(
     [switch]$Volumes
   )
@@ -1721,14 +1721,14 @@ function Remove-Vertica {
   }
 }
   
-function Get-Vertica {
+function Get-SdaVertica {
   docker container ls -a -f 'name=vertica-server' --format '{{.Status}}'
 }
   
 ######################
 ## Crate DOCKER
 ######################
-function New-Crate {
+function New-SdaCrate {
   param (
     [string]$Version = "latest"
   )
@@ -1744,7 +1744,7 @@ function New-Crate {
     $removeExisting = Read-Host "Container is already running. Do you want me to destroy it? (Y/n)"
     switch -Regex ($removeExisting) {
       '[Nn]' { break }
-      Default { docker kill crate-server ; if ($?) { Remove-Crate } }
+      Default { docker kill crate-server ; if ($?) { Remove-SdaCrate } }
     }
   }
   
@@ -1766,7 +1766,7 @@ function New-Crate {
   }
 }
   
-function Connect-Crate {
+function Connect-SdaCrate {
   Write-Output "Connecting to Vertica in Docker container"
   $confirmation = Read-Host "Are you sure you want to proceed? (Y/n)"
   switch -Regex ($confirmation) {
@@ -1775,7 +1775,7 @@ function Connect-Crate {
   }
 }
   
-function Connect-CrateWeb {
+function Connect-SdaCrateWeb {
   $url = "http://localhost:4200"
   Write-Output "Connecting to Presto web interface at: '$url'"
   Write-Output "If web browser did not open automatically please open browser and paste in address manually"
@@ -1790,21 +1790,21 @@ function Connect-CrateWeb {
         open $url
       }
       else {
-        Start-Process $url
+        Start-SdaProcess $url
       }
     }
   }
 }
   
-function Stop-Crate {
+function Stop-SdaCrate {
   docker stop crate-server -t 10
 }
   
-function Start-Crate {
+function Start-SdaCrate {
   docker start crate-server
 }
   
-function Remove-Crate {
+function Remove-SdaCrate {
   param(
     [switch]$Volumes
   )
@@ -1814,7 +1814,7 @@ function Remove-Crate {
   }
 }
   
-function Get-Crate {
+function Get-SdaCrate {
   docker container ls -a -f 'name=crate-server' --format '{{.Status}}'
 }
   
@@ -1822,7 +1822,7 @@ function Get-Crate {
 ######################
 ## Portainer DOCKER
 ######################
-function New-Portainer {
+function New-SdaPortainer {
   param (
     [string]$Version = "latest"
   )
@@ -1838,7 +1838,7 @@ function New-Portainer {
     $removeExisting = Read-Host "Container is already running. Do you want me to destroy it? (Y/n)"
     switch -Regex ($removeExisting) {
       '[Nn]' { break }
-      Default { docker kill portainer ; if ($?) { Remove-Crate } }
+      Default { docker kill portainer ; if ($?) { Remove-SdaCrate } }
     }
   }
   
@@ -1860,7 +1860,7 @@ function New-Portainer {
   }
 }
   
-function Connect-PortainerWeb {
+function Connect-SdaPortainerWeb {
   $url = "http://localhost:9000"
   Write-Output "Connecting to Portainer web interface at: '$url'"
   Write-Output "If web browser did not open automatically please open browser and paste in address manually"
@@ -1875,21 +1875,21 @@ function Connect-PortainerWeb {
         open $url
       }
       else {
-        Start-Process $url
+        Start-SdaProcess $url
       }
     }
   }
 }
   
-function Stop-Portainer {
+function Stop-SdaPortainer {
   docker stop portainer -t 10
 }
   
-function Start-Portainer {
+function Start-SdaPortainer {
   docker start portainer
 }
   
-function Remove-Portainer {
+function Remove-SdaPortainer {
   param(
     [switch]$Volumes
   )
@@ -1899,7 +1899,7 @@ function Remove-Portainer {
   }
 }
   
-function Get-Portainer {
+function Get-SdaPortainer {
   docker container ls -a -f 'name=portainer' --format '{{.Status}}'
 }
   
