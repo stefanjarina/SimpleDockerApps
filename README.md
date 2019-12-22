@@ -3,6 +3,7 @@
 A PowerShell module for simply creating a various servers or apps in a docker containers
 
 **This is still a work in progress, however the various functions shall be working**
+**The API might still be changing**
 
 ## TODO
 
@@ -38,7 +39,7 @@ Import-Module SimpleDockerApps -Force
 
 - Lists only running services
 
-### `New-Sda<ServiseName>` [-Password \<password\>] [-Version \<version\>]
+### `New-Sda<ServiceName>` [-Password \<password\>] [-Version \<version\>]
 
 - Downloads an image if not already in cache
 - Creates new docker container
@@ -47,27 +48,27 @@ Import-Module SimpleDockerApps -Force
   - name ends in `-server`
 - Starts docker container
 
-### `Connect-Sda<ServiseName>` [-Password \<password\>]
+### `Connect-Sda<ServiceName>` [-Password \<password\>]
 
 - Connects directly to docker servise (using `docker exec` and native cli app (if exists))
 
-### `New-Sda<ServiseName>Web` [-Password \<password\>]
+### `New-Sda<ServiceName>Web` [-Password \<password\>]
 
 - Some services have a web interface exposed by default, this functions open the web page in default web browser based on system
 
-### `Get-Sda<ServiseName>`
+### `Get-Sda<ServiceName>`
 
 - Gets a status of a docker container
 
-### `Start-Sda<ServiseName>`
+### `Start-Sda<ServiceName>`
 
 - Starts a docker container
 
-### `Stop-Sda<ServiseName>`
+### `Stop-Sda<ServiceName>`
 
 - Stops a docker container
 
-### `Remove-Sda<ServiseName>` [-Volumes]
+### `Remove-Sda<ServiceName>` [-Volumes]
 
 - Removes a docker container
 - If `-Volumes` is specified, removes also volumes
