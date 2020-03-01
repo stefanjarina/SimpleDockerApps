@@ -448,11 +448,11 @@
        */
       "name": "elasticsearch",
       "outputName": "Elasticsearch",
-      "defaultVersion": "6.6.1",
+      "defaultVersion": "7.6.0",
       "hasPassword": false,
       "customPassword": "",
       "docker": {
-        "imageName": "docker.elastic.co/elasticsearch/elasticsearch",
+        "imageName": "elasticsearch",
         "portMappings": [
           {
             "host": 9200,
@@ -628,6 +628,40 @@
       "cliConnectCommand": "arangosh --server.password {PASSWORD}",
       "hasWebConnect": false,
       "webConnectUrl": ""
+    },
+    {
+      /*
+       * RethinkDB
+       */
+      "name": "rethinkdb",
+      "outputName": "RethinkDB",
+      "defaultVersion": "latest",
+      "hasPassword": false,
+      "customPassword": "",
+      "docker": {
+        "imageName": "rethinkdb",
+        "portMappings": [
+          {
+            "host": 8080,
+            "container": 8080
+          }
+        ],
+        "isPersistent": "true",
+        "volumes": [
+          {
+            "source": "{NAME}-data",
+            "target": "/data",
+            "isNamed": true
+          }
+        ],
+        "envVars": [],
+        "additionalDockerArguments": [],
+        "customAppCommands": []
+      },
+      "hasCliConnect": false,
+      "cliConnectCommand": "",
+      "hasWebConnect": true,
+      "webConnectUrl": "http://localhost:8080"
     },
     {
       /*
