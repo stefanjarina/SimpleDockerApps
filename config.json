@@ -1,0 +1,840 @@
+{
+  // Default network, will be created if doesn't exists
+  "defaultNetwork": "simple-docker-apps",
+  // Default password for apps that require it
+  "defaultPassword": "Start123++",
+  // All containers will be prefixed with below prefix
+  "prefix": "sda",
+  "services": [
+    {
+      /*
+       * MSSQL
+       */
+      "name": "mssql",
+      "outputName": "MS SQL",
+      "defaultVersion": "latest",
+      "hasPassword": true,
+      "customPassword": "",
+      "docker": {
+        "imageName": "mcr.microsoft.com/mssql/server",
+        "portMappings": [
+          {
+            "host": 1433,
+            "container": 1433
+          }
+        ],
+        "isPersistent": "true",
+        "volumes": [
+          {
+            "source": "{NAME}-data",
+            "target": "/var/opt/mssql",
+            "isNamed": true
+          }
+        ],
+        "envVars": [
+          "ACCEPT_EULA=Y",
+          "SA_PASSWORD={PASSWORD}",
+          "MSSQL_PID=Express"
+        ],
+        "additionalDockerArguments": ["--ulimit nofile=262144:262144"],
+        "customAppCommands": ""
+      },
+      "hasCliConnect": true,
+      "cliConnectCommand": "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P '{PASSWORD}'",
+      "hasWebConnect": false,
+      "webConnectUrl": ""
+    },
+    {
+      /*
+       * PostgreSQL
+       */
+      "name": "postgres",
+      "outputName": "PostgreSQL",
+      "defaultVersion": "11",
+      "hasPassword": true,
+      "customPassword": "",
+      "docker": {
+        "imageName": "postgres",
+        "portMappings": [
+          {
+            "host": 5432,
+            "container": 5432
+          }
+        ],
+        "isPersistent": "true",
+        "volumes": [
+          {
+            "source": "{NAME}-data",
+            "target": "/var/lib/postgresql/data",
+            "isNamed": true
+          }
+        ],
+        "envVars": ["POSTGRES_PASSWORD={PASSWORD}"],
+        "additionalDockerArguments": [],
+        "customAppCommands": []
+      },
+      "hasCliConnect": true,
+      "cliConnectCommand": "psql 'postgresql://postgres:{PASSWORD}@localhost:5432'",
+      "hasWebConnect": false,
+      "webConnectUrl": ""
+    },
+    {
+      /*
+       * MariaDB
+       */
+      "name": "mariadb",
+      "outputName": "MariaDB",
+      "defaultVersion": "10",
+      "hasPassword": true,
+      "customPassword": "",
+      "docker": {
+        "imageName": "mariadb",
+        "portMappings": [
+          {
+            "host": 3306,
+            "container": 3306
+          }
+        ],
+        "isPersistent": "true",
+        "volumes": [
+          {
+            "source": "{NAME}-data",
+            "target": "/var/lib/mysql",
+            "isNamed": true
+          }
+        ],
+        "envVars": ["MYSQL_ROOT_PASSWORD={PASSWORD}"],
+        "additionalDockerArguments": [],
+        "customAppCommands": []
+      },
+      "hasCliConnect": true,
+      "cliConnectCommand": "mysql -uroot -p'{PASSWORD}'",
+      "hasWebConnect": false,
+      "webConnectUrl": ""
+    },
+    {
+      /*
+       * OracleDb
+       */
+      "name": "oracledb",
+      "outputName": "OracleDb",
+      "defaultVersion": "18.4.0-xe",
+      "hasPassword": true,
+      "customPassword": "",
+      "docker": {
+        "imageName": "oracle/database",
+        "portMappings": [
+          {
+            "host": 1521,
+            "container": 1521
+          },
+          {
+            "host": 5500,
+            "container": 5500
+          }
+        ],
+        "isPersistent": "true",
+        "volumes": [
+          {
+            "source": "{NAME}-data",
+            "target": "/opt/oracle/oradata",
+            "isNamed": true
+          }
+        ],
+        "envVars": ["ORACLE_PWD={PASSWORD}"],
+        "additionalDockerArguments": [],
+        "customAppCommands": []
+      },
+      "hasCliConnect": true,
+      "cliConnectCommand": "sqlplus sys/{PASSWORD}@//localhost:1521/XE as sysdba",
+      "hasWebConnect": false,
+      "webConnectUrl": ""
+    },
+    {
+      /*
+       * MongoDB
+       */
+      "name": "mongodb",
+      "outputName": "MongoDB",
+      "defaultVersion": "latest",
+      "hasPassword": true,
+      "customPassword": "",
+      "docker": {
+        "imageName": "mongo",
+        "portMappings": [
+          {
+            "host": 27017,
+            "container": 27017
+          }
+        ],
+        "isPersistent": "true",
+        "volumes": [
+          {
+            "source": "{NAME}-data",
+            "target": "/data/db",
+            "isNamed": true
+          }
+        ],
+        "envVars": [
+          "MONGO_INITDB_ROOT_USERNAME=admin",
+          "MONGO_INITDB_ROOT_PASSWORD={PASSWORD}"
+        ],
+        "additionalDockerArguments": [],
+        "customAppCommands": []
+      },
+      "hasCliConnect": true,
+      "cliConnectCommand": "mongo -u admin -p {PASSWORD}",
+      "hasWebConnect": false,
+      "webConnectUrl": ""
+    },
+    {
+      /*
+       * Redis
+       */
+      "name": "redis",
+      "outputName": "Redis",
+      "defaultVersion": "latest",
+      "hasPassword": false,
+      "customPassword": "",
+      "docker": {
+        "imageName": "redis",
+        "portMappings": [
+          {
+            "host": 6379,
+            "container": 6379
+          }
+        ],
+        "isPersistent": "false",
+        "volumes": [],
+        "envVars": [],
+        "additionalDockerArguments": [],
+        "customAppCommands": []
+      },
+      "hasCliConnect": true,
+      "cliConnectCommand": "redis-cli",
+      "hasWebConnect": false,
+      "webConnectUrl": ""
+    },
+    {
+      /*
+       * Redis Persistent
+       */
+      "name": "redispersistent",
+      "outputName": "Redis Persistent",
+      "defaultVersion": "latest",
+      "hasPassword": false,
+      "customPassword": "",
+      "docker": {
+        "imageName": "redis",
+        "portMappings": [
+          {
+            "host": 6379,
+            "container": 6379
+          }
+        ],
+        "isPersistent": "true",
+        "volumes": [
+          {
+            "source": "{NAME}-data",
+            "target": "/data",
+            "isNamed": true
+          }
+        ],
+        "envVars": [],
+        "additionalDockerArguments": [],
+        "customAppCommands": ["--appendonly yes"]
+      },
+      "hasCliConnect": true,
+      "cliConnectCommand": "redis-cli",
+      "hasWebConnect": false,
+      "webConnectUrl": ""
+    },
+    {
+      /*
+       * Cassandra
+       */
+      "name": "cassandra",
+      "outputName": "Cassandra",
+      "defaultVersion": "latest",
+      "hasPassword": false,
+      "customPassword": "",
+      "docker": {
+        "imageName": "cassandra",
+        "portMappings": [
+          {
+            "host": 9042,
+            "container": 9042
+          }
+        ],
+        "isPersistent": "true",
+        "volumes": [
+          {
+            "source": "{NAME}-data",
+            "target": "/var/lib/cassandra",
+            "isNamed": true
+          }
+        ],
+        "envVars": [],
+        "additionalDockerArguments": [],
+        "customAppCommands": []
+      },
+      "hasCliConnect": true,
+      "cliConnectCommand": "cqlsh",
+      "hasWebConnect": false,
+      "webConnectUrl": ""
+    },
+    {
+      /*
+       * Ravendb
+       */
+      "name": "ravendb",
+      "outputName": "Ravendb",
+      "defaultVersion": "latest",
+      "hasPassword": false,
+      "customPassword": "",
+      "docker": {
+        "imageName": "ravendb/ravendb",
+        "portMappings": [
+          {
+            "host": 8080,
+            "container": 8080
+          },
+          {
+            "host": 38888,
+            "container": 38888
+          }
+        ],
+        "isPersistent": "true",
+        "volumes": [
+          {
+            "source": "{NAME}-data",
+            "target": "/opt/RavenDB/Server/RavenData",
+            "isNamed": true
+          },
+          {
+            "source": "{NAME}-config",
+            "target": "/opt/RavenDB/config",
+            "isNamed": true
+          }
+        ],
+        "envVars": [
+          "RAVEN_ARGS='--Setup.Mode=None'",
+          "RAVEN_Security_UnsecuredAccessAllowed='PrivateNetwork'"
+        ],
+        "additionalDockerArguments": [],
+        "customAppCommands": []
+      },
+      "hasCliConnect": true,
+      "cliConnectCommand": "./rvn admin-channel",
+      "hasWebConnect": true,
+      "webConnectUrl": "http://localhost:8080"
+    },
+    {
+      /*
+       * Clickhouse
+       */
+      "name": "clickhouse",
+      "outputName": "Clickhouse",
+      "defaultVersion": "latest",
+      "hasPassword": false,
+      "customPassword": "",
+      "docker": {
+        "imageName": "yandex/clickhouse-server",
+        "portMappings": [
+          {
+            "host": 8123,
+            "container": 8123
+          },
+          {
+            "host": 9000,
+            "container": 9000
+          }
+        ],
+        "isPersistent": "true",
+        "volumes": [
+          {
+            "source": "{NAME}-data",
+            "target": "/var/lib/clickhouse",
+            "isNamed": true
+          }
+        ],
+        "envVars": [],
+        "additionalDockerArguments": ["--ulimit nofile=262144:262144"],
+        "customAppCommands": []
+      },
+      "hasCliConnect": true,
+      "cliConnectCommand": "clickhouse-client",
+      "hasWebConnect": false,
+      "webConnectUrl": ""
+    },
+    {
+      /*
+       * Dremio
+       */
+      "name": "dremio",
+      "outputName": "Dremio",
+      "defaultVersion": "latest",
+      "hasPassword": false,
+      "customPassword": "",
+      "docker": {
+        "imageName": "dremio/dremio-oss",
+        "portMappings": [
+          {
+            "host": 9047,
+            "container": 9047
+          },
+          {
+            "host": 31010,
+            "container": 31010
+          },
+          {
+            "host": 45678,
+            "container": 45678
+          }
+        ],
+        "isPersistent": "true",
+        "volumes": [
+          {
+            "source": "{NAME}-data",
+            "target": "/opt/dremio/data",
+            "isNamed": true
+          },
+          {
+            "source": "{NAME}-config",
+            "target": "/opt/dremio/conf",
+            "isNamed": true
+          }
+        ],
+        "envVars": [],
+        "additionalDockerArguments": [],
+        "customAppCommands": []
+      },
+      "hasCliConnect": false,
+      "cliConnectCommand": "",
+      "hasWebConnect": true,
+      "webConnectUrl": "http://localhost:9047"
+    },
+    {
+      /*
+       * Dynamodb
+       */
+      "name": "dynamodb",
+      "outputName": "Dynamodb",
+      "defaultVersion": "latest",
+      "hasPassword": false,
+      "customPassword": "",
+      "docker": {
+        "imageName": "amazon/dynamodb-local",
+        "portMappings": [
+          {
+            "host": 8000,
+            "container": 8000
+          }
+        ],
+        "isPersistent": "false",
+        "volumes": [],
+        "envVars": [],
+        "additionalDockerArguments": [],
+        "customAppCommands": []
+      },
+      "hasCliConnect": false,
+      "cliConnectCommand": "",
+      "hasWebConnect": false,
+      "webConnectUrl": ""
+    },
+    {
+      /*
+       * Elasticsearch
+       */
+      "name": "elasticsearch",
+      "outputName": "Elasticsearch",
+      "defaultVersion": "6.6.1",
+      "hasPassword": false,
+      "customPassword": "",
+      "docker": {
+        "imageName": "docker.elastic.co/elasticsearch/elasticsearch",
+        "portMappings": [
+          {
+            "host": 9200,
+            "container": 9200
+          },
+          {
+            "host": 9300,
+            "container": 9300
+          }
+        ],
+        "isPersistent": "true",
+        "volumes": [
+          {
+            "source": "{NAME}-data",
+            "target": "/usr/share/elasticsearch/data",
+            "isNamed": true
+          }
+        ],
+        "envVars": ["discovery.type=single-node"],
+        "additionalDockerArguments": [],
+        "customAppCommands": []
+      },
+      "hasCliConnect": true,
+      "cliConnectCommand": "bin/elasticsearch-sql-cli",
+      "hasWebConnect": false,
+      "webConnectUrl": ""
+    },
+    {
+      /*
+       * Solr
+       */
+      "name": "solr",
+      "outputName": "Solr",
+      "defaultVersion": "latest",
+      "hasPassword": false,
+      "customPassword": "",
+      "docker": {
+        "imageName": "solr",
+        "portMappings": [
+          {
+            "host": 8983,
+            "container": 8983
+          }
+        ],
+        "isPersistent": "true",
+        "volumes": [
+          {
+            "source": "{NAME}-data",
+            "target": "/opt/solr/server/solr/mycores",
+            "isNamed": true
+          }
+        ],
+        "envVars": [],
+        "additionalDockerArguments": [],
+        "customAppCommands": []
+      },
+      "hasCliConnect": false,
+      "cliConnectCommand": "",
+      "hasWebConnect": true,
+      "webConnectUrl": "http://localhost:8983/solr/"
+    },
+    {
+      /*
+       * Neo4j
+       */
+      "name": "neo4j",
+      "outputName": "Neo4j",
+      "defaultVersion": "latest",
+      "hasPassword": false,
+      "customPassword": "",
+      "docker": {
+        "imageName": "neo4j",
+        "portMappings": [
+          {
+            "host": 7474,
+            "container": 7474
+          },
+          {
+            "host": 7687,
+            "container": 7687
+          }
+        ],
+        "isPersistent": "true",
+        "volumes": [
+          {
+            "source": "{NAME}-data",
+            "target": "/data",
+            "isNamed": true
+          }
+        ],
+        "envVars": [],
+        "additionalDockerArguments": [],
+        "customAppCommands": []
+      },
+      "hasCliConnect": true,
+      "cliConnectCommand": "cypher-shell -u neo4j -p neo4j",
+      "hasWebConnect": false,
+      "webConnectUrl": ""
+    },
+    {
+      /*
+       * OrientDB
+       */
+      "name": "orientdb",
+      "outputName": "OrientDB",
+      "defaultVersion": "latest",
+      "hasPassword": true,
+      "customPassword": "",
+      "docker": {
+        "imageName": "orientdb",
+        "portMappings": [
+          {
+            "host": 2424,
+            "container": 2424
+          },
+          {
+            "host": 2480,
+            "container": 2480
+          }
+        ],
+        "isPersistent": "true",
+        "volumes": [
+          {
+            "source": "{NAME}-data",
+            "target": "/orientdb/databases",
+            "isNamed": true
+          }
+        ],
+        "envVars": ["ORIENTDB_ROOT_PASSWORD={PASSWORD}"],
+        "additionalDockerArguments": [],
+        "customAppCommands": []
+      },
+      "hasCliConnect": true,
+      "cliConnectCommand": "bin/console.sh",
+      "hasWebConnect": false,
+      "webConnectUrl": ""
+    },
+    {
+      /*
+       * ArangoDB
+       */
+      "name": "arangodb",
+      "outputName": "ArangoDB",
+      "defaultVersion": "latest",
+      "hasPassword": true,
+      "customPassword": "",
+      "docker": {
+        "imageName": "arangodb",
+        "portMappings": [
+          {
+            "host": 8529,
+            "container": 8529
+          }
+        ],
+        "isPersistent": "true",
+        "volumes": [
+          {
+            "source": "{NAME}-data",
+            "target": "/var/lib/arangodb3",
+            "isNamed": true
+          },
+          {
+            "source": "{NAME}-apps",
+            "target": "/var/lib/arangodb3-apps",
+            "isNamed": true
+          }
+        ],
+        "envVars": ["ARANGO_ROOT_PASSWORD={PASSWORD}"],
+        "additionalDockerArguments": [],
+        "customAppCommands": []
+      },
+      "hasCliConnect": true,
+      "cliConnectCommand": "arangosh --server.password {PASSWORD}",
+      "hasWebConnect": false,
+      "webConnectUrl": ""
+    },
+    {
+      /*
+       * Presto
+       */
+      "name": "presto",
+      "outputName": "Presto",
+      "defaultVersion": "latest",
+      "hasPassword": false,
+      "customPassword": "",
+      "docker": {
+        "imageName": "starburstdata/presto",
+        "portMappings": [
+          {
+            "host": 8080,
+            "container": 8080
+          }
+        ],
+        "isPersistent": "false",
+        "volumes": [],
+        "envVars": [],
+        "additionalDockerArguments": [],
+        "customAppCommands": []
+      },
+      "hasCliConnect": false,
+      "cliConnectCommand": "presto-cli",
+      "hasWebConnect": true,
+      "webConnectUrl": "http://localhost:8080"
+    },
+    {
+      /*
+       * ScyllaDB
+       */
+      "name": "scylladb",
+      "outputName": "ScyllaDB",
+      "defaultVersion": "latest",
+      "hasPassword": false,
+      "customPassword": "",
+      "docker": {
+        "imageName": "scylladb/scylla",
+        "portMappings": [
+          {
+            "host": 9042,
+            "container": 9042
+          }
+        ],
+        "isPersistent": "true",
+        "volumes": [
+          {
+            "source": "{NAME}-data",
+            "target": "/var/lib/scylla",
+            "isNamed": true
+          }
+        ],
+        "envVars": [],
+        "additionalDockerArguments": [],
+        "customAppCommands": []
+      },
+      "hasCliConnect": true,
+      "cliConnectCommand": "cqlsh",
+      "hasWebConnect": false,
+      "webConnectUrl": ""
+    },
+    {
+      /*
+       * Firebird
+       */
+      "name": "firebird",
+      "outputName": "Firebird",
+      "defaultVersion": "latest",
+      "hasPassword": true,
+      "customPassword": "",
+      "docker": {
+        "imageName": "jacobalberty/firebird",
+        "portMappings": [
+          {
+            "host": 3050,
+            "container": 3050
+          }
+        ],
+        "isPersistent": "true",
+        "volumes": [
+          {
+            "source": "{NAME}-data",
+            "target": "/firebird",
+            "isNamed": true
+          }
+        ],
+        "envVars": ["ISC_PASSWORD={PASSWORD}"],
+        "additionalDockerArguments": [],
+        "customAppCommands": []
+      },
+      "hasCliConnect": true,
+      "cliConnectCommand": "/usr/local/firebird/bin/isql -user sysdba -password {PASSWORD}",
+      "hasWebConnect": false,
+      "webConnectUrl": ""
+    },
+    {
+      /*
+       * Vertica
+       */
+      "name": "vertica",
+      "outputName": "Vertica",
+      "defaultVersion": "latest",
+      "hasPassword": false,
+      "customPassword": "",
+      "docker": {
+        "imageName": "jbfavre/vertica",
+        "portMappings": [
+          {
+            "host": 5433,
+            "container": 5433
+          }
+        ],
+        "isPersistent": "true",
+        "volumes": [
+          {
+            "source": "{NAME}-data",
+            "target": "/home/dbadmin/docker",
+            "isNamed": true
+          }
+        ],
+        "envVars": [],
+        "additionalDockerArguments": [],
+        "customAppCommands": []
+      },
+      "hasCliConnect": true,
+      "cliConnectCommand": "/opt/vertica/bin/admintools",
+      "hasWebConnect": false,
+      "webConnectUrl": ""
+    },
+    {
+      /*
+       * Crate
+       */
+      "name": "crate",
+      "outputName": "Crate",
+      "defaultVersion": "latest",
+      "hasPassword": false,
+      "customPassword": "",
+      "docker": {
+        "imageName": "crate",
+        "portMappings": [
+          {
+            "host": 4200,
+            "container": 4200
+          },
+          {
+            "host": 4300,
+            "container": 4300
+          }
+        ],
+        "isPersistent": "true",
+        "volumes": [
+          {
+            "source": "{NAME}-data",
+            "target": "/data",
+            "isNamed": true
+          }
+        ],
+        "envVars": ["CRATE_HEAP_SIZE=2g"],
+        "additionalDockerArguments": [],
+        "customAppCommands": []
+      },
+      "hasCliConnect": true,
+      "cliConnectCommand": "crash",
+      "hasWebConnect": true,
+      "webConnectUrl": "http://localhost:4200"
+    },
+    {
+      /*
+       * Portainer
+       */
+      "name": "portainer",
+      "outputName": "Portainer",
+      "defaultVersion": "latest",
+      "hasPassword": false,
+      "customPassword": "",
+      "docker": {
+        "imageName": "portainer/portainer",
+        "portMappings": [
+          {
+            "host": 9000,
+            "container": 9000
+          }
+        ],
+        "isPersistent": "true",
+        "volumes": [
+          {
+            "source": "{NAME}-data",
+            "target": "/data portainer/portainer",
+            "isNamed": true
+          },
+          {
+            "source": "/var/run/docker.sock",
+            "target": "/var/run/docker.sock",
+            "isNamed": false
+          }
+        ],
+        "envVars": [],
+        "additionalDockerArguments": [],
+        "customAppCommands": ["-H unix:///var/run/docker.sock"]
+      },
+      "hasCliConnect": false,
+      "cliConnectCommand": "",
+      "hasWebConnect": true,
+      "webConnectUrl": "http://localhost:9000"
+    }
+  ]
+}

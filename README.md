@@ -8,13 +8,14 @@ A PowerShell module for simply creating a various servers or apps in a docker co
 ## TODO
 
 - [x] Add prefix to all functions
-- [ ] Add help strings to all functions
-- [ ] Extract some common functionality (e.g. confirmation messages, status checks, ...)
+- [x] Add help strings to all functions
+- [x] Extract some common functionality (e.g. confirmation messages, status checks, ...)
+- [x] Add more management functions for bulk actions (stop/start all, etc.)
+- [ ] More general polish (e.g. typos, common messages to be similar, naming to be similar, etc.)
 - [ ] Properly fill manifest file
 - [ ] Publish to PSGallery
 - [ ] Improve installation instructions (shall be solved by PS Gallery)
 - [ ] Add more customization options with sane defaults (e.g. custom ports, custom network, ...)
-- [ ] Add more management functions for bulk actions (stop/start all, etc.)
 
 ## Installation
 
@@ -39,7 +40,7 @@ Import-Module SimpleDockerApps -Force
 
 - Lists only running services
 
-### `New-Sda<ServiceName>` [-Password \<password\>] [-Version \<version\>]
+### `New-Sda<ServiceName>` [-Password \<password\>][-version \<version\>]
 
 - Downloads an image if not already in cache
 - Creates new docker container
