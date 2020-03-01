@@ -1,9 +1,9 @@
 @{
     RootModule        = 'SimpleDockerApps'
-    ModuleVersion     = '0.1.0'
+    ModuleVersion     = '0.2.0'
     GUID              = 'db48be46-5aeb-4042-9a74-1c8d9af06e05'
     Author            = 'Stefan Jarina'
-    CompanyName       = 'Jarina.io'
+    CompanyName       = 'jarina.io'
     Copyright         = '(c) Stefan Jarina. All rights reserved.'
 
     # Description of the functionality provided by this module
@@ -85,13 +85,13 @@
         PSData = @{
 
             # Tags applied to this module. These help with module discovery in online galleries.
-            # Tags = @()
+            Tags       = @("docker", "simple containers", "containers")
 
             # A URL to the license for this module.
-            # LicenseUri = ''
+            LicenseUri = 'https://github.com/stefanjarina/SimpleDockerApps/blob/master/LICENSE'
 
             # A URL to the main website for this project.
-            # ProjectUri = ''
+            ProjectUri = 'https://github.com/stefanjarina/SimpleDockerApps'
 
             # A URL to an icon representing this module.
             # IconUri = ''

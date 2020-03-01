@@ -11,11 +11,13 @@ A PowerShell module for simply creating a various servers or apps in a docker co
 - [x] Add help strings to all functions
 - [x] Extract some common functionality (e.g. confirmation messages, status checks, ...)
 - [x] Add more management functions for bulk actions (stop/start all, etc.)
+- [x] Generate documentation (probably leverage platyPS)
 - [ ] More general polish (e.g. typos, common messages to be similar, naming to be similar, etc.)
-- [ ] Properly fill manifest file
+- [x] Properly fill manifest file
 - [ ] Publish to PSGallery
 - [ ] Improve installation instructions (shall be solved by PS Gallery)
 - [ ] Add more customization options with sane defaults (e.g. custom ports, custom network, ...)
+- [ ] Write Pester tests
 
 ## Installation
 
@@ -32,51 +34,11 @@ Import-Module SimpleDockerApps -Force
 
 ## Usage
 
-### `Get-SdaAllCreated`
-
-- Lists of all created services and their status
-
-### `Get-SdaAllRunning`
-
-- Lists only running services
-
-### `New-Sda<ServiceName>` [-Password \<password\>][-version \<version\>]
-
-- Downloads an image if not already in cache
-- Creates new docker container
-  - bound to default network `servers`
-  - exposing applications default ports on localhost
-  - name ends in `-server`
-- Starts docker container
-
-### `Connect-Sda<ServiceName>` [-Password \<password\>]
-
-- Connects directly to docker servise (using `docker exec` and native cli app (if exists))
-
-### `New-Sda<ServiceName>Web` [-Password \<password\>]
-
-- Some services have a web interface exposed by default, this functions open the web page in default web browser based on system
-
-### `Get-Sda<ServiceName>`
-
-- Gets a status of a docker container
-
-### `Start-Sda<ServiceName>`
-
-- Starts a docker container
-
-### `Stop-Sda<ServiceName>`
-
-- Stops a docker container
-
-### `Remove-Sda<ServiceName>` [-Volumes]
-
-- Removes a docker container
-- If `-Volumes` is specified, removes also volumes
+For full documentation please see [docs](./docs)
 
 ## Supported Services
 
-- [MSSQL](https://www.microsoft.com/en-us/sql-server/sql-server-2019) - [Docker HUB page](https://hub.docker.com/_/microsoft-mssql-server)
+- [MS SQL](https://www.microsoft.com/en-us/sql-server/sql-server-2019) - [Docker HUB page](https://hub.docker.com/_/microsoft-mssql-server)
 - [Postgres](https://www.postgresql.org/) - [Docker HUB page](https://hub.docker.com/_/postgres)
 - [Mariadb](https://mariadb.org/) - [Docker HUB page](https://hub.docker.com/_/mariadb)
 - [OracleDb](https://www.oracle.com/database/) - (Unfortunately this requires local built image due to Oracles inability to provide one)
@@ -107,4 +69,4 @@ Import-Module SimpleDockerApps -Force
 
 ### Ultimate TODO for services
 
-- investigate elasticsearch, seems they moved repo from their own repository to docker hub, needs change and testing
+- [ ] elasticsearch - fix cli connect command

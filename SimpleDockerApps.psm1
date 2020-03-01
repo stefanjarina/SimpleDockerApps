@@ -349,6 +349,10 @@ function Get-SdaConfigFileLocation {
     Returns a location to a default config file.
   .DESCRIPTION
     Returns a location to default config file that is required for this module to function
+  .EXAMPLE
+    PS C:\> Get-SdaConfigFileLocation
+    
+    Returns a location to a default config file.
   .OUTPUTS
     String
   #>
@@ -360,6 +364,10 @@ function Get-SdaConfigDetails {
   .SYNOPSIS
     Returns json representation of a configuration, either general, or of specific service
   .DESCRIPTION
+    Returns json representation of a configuration, either general, or of specific service
+  .EXAMPLE
+    PS C:\> Get-SdaConfigDetails
+    
     Returns json representation of a configuration, either general, or of specific service
   .INPUTS
     None. You cannot pipe objects to this command
@@ -397,6 +405,14 @@ function Remove-SdaImages {
   .DESCRIPTION
     Removes all images that are not associated with other resources (so called dangling images)
     Images can be downloaded again in case you remove more than you want.
+  .EXAMPLE
+    PS C:\> Get-SdaImages
+    
+    Query existing docker images, compare them with config and removes only those that match
+  .EXAMPLE
+    PS C:\> Get-SdaImages -Dangling
+    
+    Removes all dangling images
   .INPUTS
     None. You cannot pipe objects to this command
   .OUTPUTS
@@ -442,7 +458,11 @@ function New-SdaNetwork {
   .SYNOPSIS
     Creates new docker network
   .DESCRIPTION
-    Creates new docker network
+    Creates new docker network of driver type 'bridge'
+  .EXAMPLE
+    PS C:\> Get-SdaNetwork my-network
+    
+    Creates my-network of driver type 'bridge'
   .INPUTS
     None. You cannot pipe objects to this command
   .OUTPUTS
@@ -476,26 +496,15 @@ function Get-SdaService {
     Defaults to list running services if no Name, or one of [Available, Running, Stopped, Created] is given
   .EXAMPLE
     PS C:\> Get-SdaService -Name mssql
-      Name                           Value
-      ----                           -----
-      Status                         running
-      Container                      sda-mssql
-      Name                           mssql
+    Name                           Value
+    ----                           -----
+    Status                         running
+    Container                      sda-mssql
+    Name                           mssql
+
+
   .EXAMPLE
     PS C:\> Get-SdaService     # Defaults to list running services
-      Name                           Value
-      ----                           -----
-      Ports                          0.0.0.0:1433->1433/tcp
-      Image                          mcr.microsoft.com/mssql/server:latest
-      ID                             243a8ebb4118
-      Status                         Up 51 minutes
-      Name                           sda-mssql
-      Networks                       simple-docker-apps
-  .EXAMPLE
-    PS C:\> Get-SdaService -Running
-
-    Lists running SDA services
-
     Name                           Value
     ----                           -----
     Ports                          0.0.0.0:1433->1433/tcp
@@ -504,12 +513,28 @@ function Get-SdaService {
     Status                         Up 51 minutes
     Name                           sda-mssql
     Networks                       simple-docker-apps
+
+
+  .EXAMPLE
+    PS C:\> Get-SdaService -Running
+    Name                           Value
+    ----                           -----
+    Ports                          0.0.0.0:1433->1433/tcp
+    Image                          mcr.microsoft.com/mssql/server:latest
+    ID                             243a8ebb4118
+    Status                         Up 51 minutes
+    Name                           sda-mssql
+    Networks                       simple-docker-apps
+
+
   .EXAMPLE
     PS C:\> Get-SdaService -Available
     Name                           Value
     ----                           -----
     MS SQL                         mssql
     PostgreSQL                     postgres
+
+
   .EXAMPLE
     PS C:\> Get-SdaService -Created
     Name                           Value
@@ -520,15 +545,27 @@ function Get-SdaService {
     Status                         Up 54 minutes
     Name                           sda-mssql
     Networks                       simple-docker-apps
-
+         
     Ports                          0.0.0.0:5432->5432/tcp
     Image                          postgres:11
     ID                             75eb3b089d5b
     Status                         Exited (255) 2 hours ago
     Name                           sda-postgres
     Networks                       simple-docker-apps
+
+
   .EXAMPLE
     PS C:\> Get-SdaService -Stopped
+    Name                           Value
+    ----                           -----
+    Ports                          0.0.0.0:5432->5432/tcp
+    Image                          postgres:11
+    ID                             75eb3b089d5b
+    Status                         Exited (255) 2 hours ago
+    Name                           sda-postgres
+    Networks                       simple-docker-apps
+
+
   .INPUTS
     None. You cannot pipe objects to this command
   .OUTPUTS
@@ -598,12 +635,20 @@ function Get-SdaService {
 function Start-SdaService {
   <#
   .SYNOPSIS
-    Creates new docker network
+    Starts SDA service
   .DESCRIPTION
-    Creates new docker network
+    Starts SDA service
+  .EXAMPLE
+    PS C:\> Start-SdaService mssql
+    
+    Starts service 'mssql'
+  .EXAMPLE
+    PS C:\> Get-SdaService -Stopped | Start-SdaService
+    
+    Starts all stopped SDA services
   .INPUTS
     PSCustomObject
-      Object returned from Get-Services
+      Object returned from Get-Service
   .OUTPUTS
     PSCustomObject
       Object with new status of a service
@@ -630,19 +675,29 @@ function Start-SdaService {
 function Stop-SdaService {
   <#
   .SYNOPSIS
-    Creates new docker network
+    Stops SDA service
   .DESCRIPTION
-    Creates new docker network
+    Stops SDA service
+  .EXAMPLE
+    PS C:\> Stop-SdaService mssql
+    
+    Stops service 'mssql'
+  .EXAMPLE
+    PS C:\> Get-SdaService -Running | Stop-SdaService
+    
+    Stops all running SDA services
   .INPUTS
     PSCustomObject
-      Object returned from Get-Services
+      Object returned from Get-Service
   .OUTPUTS
     PSCustomObject
       Object with new status of a service
   #>
   param (
+    # Service name
     [Parameter(Position = 0, ValueFromPipelineByPropertyName, Mandatory = $true)]
     [string]$Name,
+    # Switch to kill instead of graceful shutdown
     [switch]$Kill
   )
   process {
@@ -668,19 +723,35 @@ function Stop-SdaService {
 function Remove-SdaService {
   <#
   .SYNOPSIS
-    Creates new docker network
+    Removes SDA service
   .DESCRIPTION
-    Creates new docker network
+    Removes SDA service
+
+    Can also remove dangling volumes, which is destructive action and will remove all your data without possibility to recover.
+  .EXAMPLE
+    PS C:\> Remove-SdaService mssql
+    
+    Removes service 'mssql'
+  .EXAMPLE
+    PS C:\> Remove-SdaService mssql -Volumes
+    
+    Removes service 'mssql' including all related volumes
+  .EXAMPLE
+    PS C:\> Get-SdaService -Stopped | Remove-SdaService
+    
+    Removes all stopped SDA services
   .INPUTS
     PSCustomObject
-      Object returned from Get-Services
+      Object returned from Get-Service
   .OUTPUTS
     PSCustomObject
       Object with new status of a service
   #>
   param(
+    # Service name
     [Parameter(Position = 0, ValueFromPipelineByPropertyName, Mandatory = $true)]
     [string]$Name,
+    # Switch to remove also related volumes (THIS IS DESTRUCTIVE ACTION)
     [switch]$Volumes
   )
   process {
@@ -742,6 +813,15 @@ function New-SdaService {
     Creates new service
   .DESCRIPTION
     Creates new SDA service.
+    If volumes already exists it will reuse them.
+  .EXAMPLE
+    PS C:\> New-SdaService mssql
+    
+    Creates new service 'mssql' with default settings
+  .EXAMPLE
+    PS C:\> New-SdaService mongodb -Network custom-network -Version 3 -Pass "Start123"
+    
+    Creates new service 'mongodb' with custom network name, versiona and password
   .INPUTS
     None. You cannot pipe objects to this command
   .OUTPUTS
@@ -832,6 +912,20 @@ function Connect-SdaService {
     Connects to a service inside the docker container
   .DESCRIPTION
     Connects to a service inside running container. It leverages the 'docker exec -it' command.
+
+    Also supports opening web dashboard if url is present in config. It will be opened in default web browser, this functionality is cross-platform
+  .EXAMPLE
+    PS C:\> Connect-SdaService mssql
+    
+    Connects to service 'mssql' with default settings
+  .EXAMPLE
+    PS C:\> Connect-SdaService ravendb -Web
+    
+    Opens configured dashboard url in default browser.
+  .EXAMPLE
+    PS C:\> Connect-SdaService mongodb -Pass "Start123"
+    
+    Connects to service 'mongodb' with custom password
   .INPUTS
     None. You cannot pipe objects to this command
   .OUTPUTS
