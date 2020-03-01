@@ -7,7 +7,7 @@
     Copyright         = '(c) Stefan Jarina. All rights reserved.'
 
     # Description of the functionality provided by this module
-    Description       = ''
+    Description       = 'A PowerShell module for simplified creation of various servers or apps in a docker container'
 
     # Minimum version of the PowerShell engine required by this module
     # PowerShellVersion = ''
@@ -85,7 +85,7 @@
         PSData = @{
 
             # Tags applied to this module. These help with module discovery in online galleries.
-            Tags       = @("docker", "simple containers", "containers")
+            Tags       = @("docker", "SimpleContainers", "containers", "powershell", "core", "Windows", "Linux", "Mac")
 
             # A URL to the license for this module.
             LicenseUri = 'https://github.com/stefanjarina/SimpleDockerApps/blob/master/LICENSE'
