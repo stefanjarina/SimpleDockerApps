@@ -3,6 +3,7 @@
 A PowerShell module for simply creating a various servers or apps in a docker containers
 
 **This is still a work in progress, however the various functions shall be working**
+
 **The API might still be changing**
 
 ## TODO
@@ -14,22 +15,17 @@ A PowerShell module for simply creating a various servers or apps in a docker co
 - [x] Generate documentation (probably leverage platyPS)
 - [ ] More general polish (e.g. typos, common messages to be similar, naming to be similar, etc.)
 - [x] Properly fill manifest file
-- [ ] Publish to PSGallery
-- [ ] Improve installation instructions (shall be solved by PS Gallery)
+- [x] Publish to PSGallery
+- [x] Improve installation instructions (shall be solved by PS Gallery)
 - [ ] Add more customization options with sane defaults (e.g. custom ports, custom network, ...)
 - [ ] Write Pester tests
 
 ## Installation
 
-- Right now you can clone it into any folder and than add to you PowerShell profile file something like
-  - Better installation option will be provided at a later stage
+You can find this module on [powershell gallery](https://www.powershellgallery.com/packages/SimpleDockerApps/0.2.0)
 
 ```powershell
-##### CUSTOM MODULES
-if ($env:PSModulePath -notmatch 'powershell\\modules') {
-  $env:PSModulePath = $env:PSModulePath + ';E:\powershell\modules'
-}
-Import-Module SimpleDockerApps -Force
+Install-Module -Name SimpleDockerApps
 ```
 
 ## Usage
@@ -70,3 +66,7 @@ For full documentation please see [docs](./docs)
 ### Ultimate TODO for services
 
 - [ ] elasticsearch - fix cli connect command
+
+## Contributing
+
+Please see [contributing guidelines](./CONTRIBUTING.md)
