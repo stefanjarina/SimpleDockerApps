@@ -1,16 +1,19 @@
 @{
-    RootModule        = 'SimpleDockerApps'
-    ModuleVersion     = '0.2.0'
-    GUID              = 'db48be46-5aeb-4042-9a74-1c8d9af06e05'
-    Author            = 'Stefan Jarina'
-    CompanyName       = 'jarina.io'
-    Copyright         = '(c) Stefan Jarina. All rights reserved.'
+    RootModule           = 'SimpleDockerApps'
+    ModuleVersion        = '0.2.0'
+    GUID                 = 'db48be46-5aeb-4042-9a74-1c8d9af06e05'
+    Author               = 'Stefan Jarina'
+    CompanyName          = 'jarina.io'
+    Copyright            = '(c) Stefan Jarina. All rights reserved.'
 
     # Description of the functionality provided by this module
-    Description       = 'A PowerShell module for simplified creation of various servers or apps in a docker container'
+    Description          = 'A PowerShell module for simplified creation of various servers or apps in a docker container'
 
     # Minimum version of the PowerShell engine required by this module
     # PowerShellVersion = ''
+
+    # Compatible Powershell Editions (Accepted values Desk, Core)
+    CompatiblePSEditions = @("Core", "Desk")
 
     # Name of the PowerShell host required by this module
     # PowerShellHostName = ''
@@ -48,7 +51,7 @@
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
     # FunctionsToExport = "*"
    
-    FunctionsToExport = @(
+    FunctionsToExport    = @(
         "Get-SdaConfigFileLocation",
         "Get-SdaConfigDetails",
         "Remove-SdaImages",
@@ -62,13 +65,13 @@
     )
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
-    CmdletsToExport   = @()
+    CmdletsToExport      = @()
 
     # Variables to export from this module
-    VariablesToExport = @()
+    VariablesToExport    = @()
 
     # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
-    AliasesToExport   = @()
+    AliasesToExport      = @()
 
     # DSC resources to export from this module
     # DscResourcesToExport = @()
@@ -80,7 +83,7 @@
     # FileList = @()
 
     # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
-    PrivateData       = @{
+    PrivateData          = @{
 
         PSData = @{
 

@@ -34,7 +34,7 @@
         "envVars": [
           "ACCEPT_EULA=Y",
           "SA_PASSWORD={PASSWORD}",
-          "MSSQL_PID=Express"
+          "MSSQL_PID=Developer"
         ],
         "additionalDockerArguments": ["--ulimit nofile=262144:262144"],
         "customAppCommands": ""
@@ -50,7 +50,7 @@
        */
       "name": "postgres",
       "outputName": "PostgreSQL",
-      "defaultVersion": "11",
+      "defaultVersion": "12",
       "hasPassword": true,
       "customPassword": "",
       "docker": {
